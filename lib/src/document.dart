@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -57,28 +57,28 @@ class PDFDocument {
   /// Load a PDF File from assets folder
   /// [String asset] path of the asset to be loaded
   ///
-  static Future<PDFDocument> fromAsset(String asset) async {
-    File file;
-    try {
-      var dir = await getApplicationDocumentsDirectory();
-      file = File("${dir.path}/file.pdf");
-      var data = await rootBundle.load(asset);
-      var bytes = data.buffer.asUint8List();
-      await file.writeAsBytes(bytes, flush: true);
-    } catch (e) {
-      throw Exception('Error parsing asset file!');
-    }
-    PDFDocument document = PDFDocument();
-    document._filePath = file.path;
-    try {
-      var pageCount = await _channel
-          .invokeMethod('getNumberOfPages', {'filePath': file.path});
-      document.count = document.count = int.parse(pageCount);
-    } catch (e) {
-      throw Exception('Error reading PDF!');
-    }
-    return document;
-  }
+  static Future fromAsset(String asset) async {
+io.File file; 
+try {
+var dir = await getApplicationDocumentsDirectory();
+file = io.File("${dir.path}/file.pdf"); // Edited
+var data = await rootBundle.load(asset);
+var bytes = data.buffer.asUint8List();
+await file.writeAsBytes(bytes, flush: true);
+} catch (e) {
+throw Exception('Error parsing asset file!');
+}
+PDFDocument document = PDFDocument();
+document._filePath = file.path;
+try {
+var pageCount = await _channel
+.invokeMethod('getNumberOfPages', {'filePath': file.path});
+document.count = document.count = int.parse(pageCount);
+} catch (e) {
+throw Exception('Error reading PDF!');
+}
+return document;
+}
 
   /// Load specific page
   ///
