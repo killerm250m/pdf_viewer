@@ -18,7 +18,7 @@ class PDFDocument {
   /// Load a PDF File from a given File
   /// [File file], file to be loaded
   ///
-  static Future<PDFDocument> fromFile(File file) async {
+  static Future<PDFDocument> fromFile(io.File file) async {
     PDFDocument document = PDFDocument();
     document._filePath = file.path;
     try {
